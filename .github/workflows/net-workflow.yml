@@ -22,7 +22,7 @@ jobs:
       - name: Display .net verion
         run: dotnet --version
       - name: Install Newtonsoft package
-        run: dotnet add package Newtonsoft.Json --version 12.0.1
+        run: dotnet add ../WebApplication1/WebApplication1.csproj package Newtonsoft.Json --version 12.0.1
       - name: Install dependencies
         run: dotnet restore
       - name: Build Solution
