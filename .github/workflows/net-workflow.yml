@@ -1,0 +1,31 @@
+name: dotnet package
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  job_name_is_build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ["3.0", "3.1.x", "5.0.x"]
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Set up .Net Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Display .net verion
+        run: dotnet --version
+      - name: Install Newtonsoft package
+        run: dotnet add package Newtonsoft.Json --version 12.0.1
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build Solution
+        run: dotnet build --configuration Release --no-restore
+      - name: Run Unit Tests
+        run: dotnet test --no-restore --verbosity normal
